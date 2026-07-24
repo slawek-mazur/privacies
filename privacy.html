@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Polityka prywatności — Repetitions</title>
+  <meta name="description" content="Jak Repetitions obchodzi się z Twoimi danymi: uwierzytelnianie Firebase, notatki, powiadomienia push.">
+  <meta name="theme-color" content="#fafafa">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --border: #eeeeee;
+      --border-hover: #e0e0e0;
+      --text-primary: #0a0a0a;
+      --text-secondary: #525252;
+      --text-muted: #737373;
+      --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    body {
+      background-image:
+        radial-gradient(80% 60% at 50% 28%, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 55%),
+        radial-gradient(120% 100% at 50% 40%, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0) 90%);
+      min-height: 100svh;
+    }
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: var(--bg);
+      border-bottom: 1px solid transparent;
+    }
+    .wordmark {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .wordmark::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--text-primary);
+    }
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 104px 22px 56px;
+    }
+    @media (min-width: 768px) {
+      nav { padding: 16px 32px; }
+      main { padding: 128px 32px 80px; }
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+    .eyebrow .slash {
+      color: var(--text-muted);
+      opacity: 0.85;
+      font-weight: 700;
+    }
+    .eyebrow .label {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    h1 {
+      margin: 14px 0 4px;
+      font-size: clamp(2.1rem, 6vw, 2.9rem);
+      font-weight: 600;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+    .effective {
+      margin: 0;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+    .lead {
+      margin: 28px 0 0;
+      font-size: 1.02rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+    .body h2 {
+      margin: 40px 0 10px;
+      font-size: 1.06rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+    }
+    .body p,
+    .body li {
+      font-size: 0.95rem;
+      line-height: 1.72;
+      color: var(--text-secondary);
+    }
+    .body p { margin: 0 0 14px; }
+    .body ul {
+      margin: 0 0 14px;
+      padding-left: 20px;
+    }
+    .body li { margin: 0 0 8px; }
+    .body strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .body a {
+      color: var(--text-primary);
+      text-decoration: underline;
+      text-decoration-color: var(--border-hover);
+      text-underline-offset: 3px;
+      transition: text-decoration-color 0.22s ease;
+    }
+    .body a:hover { text-decoration-color: var(--text-primary); }
+    footer {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 24px 22px 40px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      text-align: center;
+    }
+    footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.22s ease;
+    }
+    footer a:hover { color: var(--text-primary); }
+    @media (max-width: 360px) {
+      .eyebrow { letter-spacing: 0.15em; gap: 8px; font-size: 0.65rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav aria-label="Primary">
+    <a class="wordmark" href="/" aria-label="Repetitions home">
+      <span>Repetitions</span>
+    </a>
+  </nav>
+
+  <main>
+    <div class="eyebrow">
+      <span class="slash" aria-hidden="true">//</span>
+      <span class="label">Polityka</span>
+    </div>
+    <h1>Polityka prywatności</h1>
+    <p class="effective">Repetitions · obowiązuje od 24 lipca 2026</p>
+
+    <p class="lead">
+      Repetitions to aplikacja do nauki metodą spaced repetition. Ta strona wyjaśnia,
+      jakie dane przechowuje aplikacja i po co: Twoje notatki, konto i powiadomienia.
+    </p>
+
+    <div class="body">
+      <h2>1. Twoje konto</h2>
+      <p>
+        Możesz zalogować się przez <strong>e-mail</strong>, <strong>Google</strong> lub
+        <strong>Apple</strong>, albo korzystać z aplikacji anonimowo — bez konta. Konto
+        pozwala synchronizować notatki między urządzeniami; korzystanie anonimowe wiąże
+        notatki z tym jednym urządzeniem.
+      </p>
+
+      <h2>2. Co przechowujemy</h2>
+      <ul>
+        <li>Twój identyfikator konta i adres e-mail (jeśli się logujesz).</li>
+        <li>Treść Twoich notatek: tytuł, opis, tag.</li>
+        <li>Token urządzenia potrzebny do wysłania powiadomień push.</li>
+      </ul>
+      <p>
+        <strong>Nie zbieramy</strong> lokalizacji, kontaktów, zdjęć, mikrofonu ani danych
+        z innych aplikacji.
+      </p>
+
+      <h2>3. Do czego używamy tych danych</h2>
+      <p>
+        Wyłącznie po to, żeby aplikacja działała: synchronizacja notatek, wysyłanie
+        przypomnień o powtórkach, ochrona przed nadużyciami. Nie budujemy profili
+        reklamowych ani nie analizujemy treści Twoich notatek.
+      </p>
+
+      <h2>4. Komu udostępniamy dane</h2>
+      <p>
+        <strong>Nie sprzedajemy Twoich danych.</strong> Dane trafiają wyłącznie do
+        dostawców, którzy przetwarzają je w naszym imieniu, żeby aplikacja mogła działać:
+        <strong>Google Firebase</strong> (logowanie, powiadomienia) oraz
+        <strong>Google Cloud</strong> (hosting bazy notatek).
+      </p>
+
+      <h2>5. Jak długo przechowujemy dane</h2>
+      <ul>
+        <li>Notatki i konto — do usunięcia konta przez Ciebie.</li>
+        <li>Token powiadomień — do wyłączenia powiadomień lub odinstalowania aplikacji.</li>
+      </ul>
+
+      <h2>6. Twoje prawa</h2>
+      <p>
+        Możesz w każdej chwili edytować lub usunąć swoje notatki, wyłączyć powiadomienia
+        w ustawieniach systemu, albo poprosić o usunięcie konta e-mailem na adres
+        kontaktowy poniżej.
+      </p>
+
+      <h2>7. Dzieci</h2>
+      <p>
+        Aplikacja nie jest kierowana do dzieci poniżej 13. roku życia i świadomie nie
+        zbieramy od nich danych.
+      </p>
+
+      <h2>8. Zmiany</h2>
+      <p>
+        Jeśli sposób przetwarzania danych się zmieni, ta strona zostanie zaktualizowana
+        wraz z datą u góry dokumentu.
+      </p>
+
+      <h2>9. Kontakt</h2>
+      <p>
+        Pytania i prośby o usunięcie danych:
+        <a href="mailto:info@stricte.io">info@stricte.io</a>.
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="mailto:info@stricte.io">info@stricte.io</a>
+  </footer>
+</body>
+</html>
